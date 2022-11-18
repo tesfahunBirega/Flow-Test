@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_patient_details,access.patient.details,model_patient_details,,1,1,1,1
+access_m_a,access.m.a,model_m_a,,1,1,1,1
+access_patient_visit,access.patient.visit,model_patient_visit,,1,1,1,1
+access_fo_purpose,access.fo.purpose,model_fo_purpose,,1,1,1,1
+
+
+
+
+
+
+
+

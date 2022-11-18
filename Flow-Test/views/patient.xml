@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <record model="ir.ui.view" id="patient_details_form_view">
+            <field name="name">Patients</field>
+            <field name="model">patient.details</field>
+            <field name="arch" type="xml">
+              <form>
+                <sheet>
+                        <div class="oe_right oe_button_box" name="button_box">
+                            <button class="oe_inline oe_stat_button" name="%(patient_details_action)d" type="action" icon="fa-arrows-v"
+                               context="{'default_patient': [active_id],'search_default_patient': [active_id]}">
+                            </button>
+                        </div> 
+                        <field name="patient_image" widget="image" class="oe_avatar"/>
+                         <div name="title_name" class="oe_title">
+                            <h1>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <field name="name"
+                                                placeholder="FullName"
+                                                style="padding-right:10px" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </h1>
+                        </div>
+                         <group>
+                            <group>
+                                <field name="gender"/>
+                                <field name="age"/>
+                                <field name="phone"/>
+                                <field name="Home_Tel"/>
+                                <field name="email"/>
+                                <field name="id_proof" />
+                                <field name="id_proof_no"/>
+                        </group>
+                        <group>
+                                <label for="street" string="Address"/>
+                                <div class="o_address_format">
+                                    <field name="city" placeholder="Sub_city" class="o_address_city"/>
+                                    <field name="street" placeholder="Kebele..." class="o_address_street"/>
+                                    <field name="street2" placeholder="House No..." class="o_address_street"/>
+                                </div>
+                        </group>
+                        <group>
+                               <label for="street" string="Emeregency Contact"/>
+                            <field name="Ename"/>
+                            <field name="relation"/>
+                            <field name="Ephone"/>
+                            <field name="EHome_Tel"/>
+                            <field name="Eemail"/>
+                           </group>
+                           <group>
+                                <label for="street" string="Address"/>
+                                <div class="o_address_format">
+                                    <field name="city" placeholder="Sub_city" class="o_address_city"/>
+                                    <field name="street3" placeholder="Kebele..." class="o_address_street"/>
+                                    <field name="street4" placeholder="House No..." class="o_address_street"/>
+                                </div>
+                            </group>
+                        </group>
+                </sheet>
+              </form>
+            </field>
+        </record>
+         <record id="patient_details_kanban_view" model="ir.ui.view">
+            <field name="name">patient.details.kanban</field>
+            <field name="model">patient.details</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_kanban_image">
+                                    <img t-att-src="kanban_image('patient.details', 'patient_image', record.id.value)"/>
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <strong>
+                                        <ul>
+                                            <li>Name :<field name="name"/></li>
+                                            <li>Id-No:<field name="id_proof_no"/></li>
+                                            <li>Phone:<field name="phone"/></li>
+                                            <li>Email:<field name="email"/></li>
+
+                                        </ul>
+                                    </strong>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="patient_details_tree_view">
+            <field name="name">Patients</field>
+            <field name="model">patient.details</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string='Visitors'>
+                    <field name="name"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                </tree>
+            </field>
+        </record>
+         <record id="patient_details_action" model="ir.actions.act_window">
+            <field name="name">patients</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">patient.details</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to Create New Deyalisis Patient.
+                </p>
+            </field>
+        </record>      
+        <menuitem id="patient_root"
+            name="Flow_Test"
+            sequence="10"/>   
+        <menuitem id="patient_details"
+            name="Patients"
+            parent="patient_root"
+            action="patient_details_action"
+            groups='Flow-Test.group_reception'
+            sequence="10"/>
+        <menuitem id="patient_menu"
+            name="patients" 
+            parent="patient_details" 
+            action="patient_details_action"
+            groups="base.group_user"
+            sequence="10"/>
+        <menuitem id="patient_visit_menu" 
+            name="Visits" 
+            parent="patient_details" 
+            action="patient_visit_action"
+            sequence="20"/>
+        <menuitem id="patient_today_visit_menu"
+              name="Today's Visits" 
+              parent="patient_root"
+              groups='Flow-Test.group_doctor'
+              sequence="20"/>
+        <menuitem id="patient_today_visit_menu_child"
+              name="Today's Visits" 
+              parent="patient_today_visit_menu" 
+              action="patient_today_visit_action"
+              sequence="30"/>
+    </data>
+</odoo>

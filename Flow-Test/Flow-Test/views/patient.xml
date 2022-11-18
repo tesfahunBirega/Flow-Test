@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <record model="ir.ui.view" id="patient_details_form_view">
+            <field name="name">Patients</field>
+            <field name="model">patient.details</field>
+            <field name="arch" type="xml">
+              <form>
+               <header>
+                                <!-- <div name="button_box">
+                    <button type="object" name="demo">
+                    dfddffddf
+                    </button> -->
+                     <!-- <button name="demo" type="object"
+                      string="Appointment" class="oe_highlight" res_model="m.a"     
+                      context="{'shorten_block_id': context.get('shorten_block_id', False)}"/              view_mode="tree,form"/> -->
+                <!-- </div> -->
+                    <button
+                            name="%(Flow-Test.action_view_appointment_id_new)d"    res_model="m.a" 
+
+                            string="Appointmnet" type="action" class="oe_highlight" binding_model="patient.details" view_mode="tree,form" 
+                  domain="[('p_id', '=', active_id)]"/>
+            </header>
+                <sheet>
+                        <field name="patient_image" widget="image" class="oe_avatar"/>
+                         <div name="title_name" class="oe_title">
+                            <h1>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <field name="name"
+                                                placeholder="FullName"
+                                                style="padding-right:10px" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </h1>
+                        </div>
+                         <group>
+                            <group>
+                                <field name="gender"/>
+                                <field name="age"/>
+                                <field name="phone"/>
+                                <field name="Home_Tel"/>
+                                <field name="email"/>
+                        </group>
+                        <group string="Address">
+                            <field name="city"/>
+                            <field name="kebele"/>
+                            <field name="House_No"/>
+                        </group>
+                        <group string="Emeregency Contact">
+                            <field name="Emeregencyname"/>
+                            <field name="relation"/>
+                            <field name="Emeregencyphone"/>
+                            <field name="EmeregencyHome_Tel"/>
+                            <field name="Emeregencyemail"/>
+                           </group>
+                        <group string="Address">
+                            <field name="Emeregencycity"/>
+                            <field name="Emeregencykebele"/>
+                            <field name="EmeregencyHouse_No"/>
+                        </group>
+                        </group>
+                </sheet>
+              </form>
+            </field>
+        </record>
+         <record id="patient_details_kanban_view" model="ir.ui.view">
+            <field name="name">patient.details.kanban</field>
+            <field name="model">patient.details</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_kanban_image">
+                                    <img t-att-src="kanban_image('patient.details', 'patient_image', record.id.value)"/>
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <strong>
+                                        <ul>
+                                            <li>Name :<field name="name"/></li>
+                                            <li>Phone:<field name="phone"/></li>
+                                            <li>Email:<field name="email"/></li>
+
+                                        </ul>
+                                    </strong>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+         <record id="patient_today_visit_action" model="ir.actions.act_window">
+            <field name="name">Today's Visits</field>
+            <field name="res_model">patient.visit</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('start_visit', '&gt;=',((context_today()-datetime.timedelta(days=0)).strftime('%Y-%m-%d 00:00:00'))),
+             ('start_visit', '&lt;=',((context_today()-datetime.timedelta(days=0)).strftime('%Y-%m-%d 23:59:59')))]
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="patient_visit_action">
+            <field name="name">PatientModel</field>
+            <field name="res_model">patient.visit</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                                    Create  Visits.
+                </p>
+                <p>
+                    The check in time will be automatically filled when the visitor check in to the office.
+                </p>
+                <p>
+                    The check out time automatically filled when the visitor check out from office.
+                </p>
+            </field>
+        </record>
+        <record id="action_medical_appointment" model="ir.actions.act_window">
+        <field name="name">Appointments</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">m.a</field>
+        <!-- <field name="binding_view_types">form</field> -->
+        <field name="view_mode">tree,form,calendar</field>
+         <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to Create New Visitors Patient.
+                </p>
+         </field>
+        </record>
+        <record id="patient_details_action" model="ir.actions.act_window">
+            <field name="name">patients</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">patient.details</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to Create New Visitors Patient.
+                </p>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="patient_details_tree_view">
+            <field name="name">Patients</field>
+            <field name="model">patient.details</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string='Visitors'>
+                    <field name="name"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                </tree>
+            </field>
+        </record> 
+        <menuitem id="patient_root"
+            name="Flow_Test"
+            sequence="10"/>
+        <menuitem id="patient_detail" 
+              name="Appointment"
+              parent="patient_root"
+              sequence="10"/>   
+        <menuitem id="patient_details"
+            name="Patients"
+            parent="patient_root"
+            action="patient_details_action"
+            sequence="10"/>
+       <!-- groups='Flow-Test.group_reception' -->
+        <menuitem id="patient_visit_menu" 
+            name="PatientModel" 
+            parent="patient_root" 
+            action="patient_visit_action"
+            sequence="20"/>
+      <!-- groups='Flow-Test.group_reception' -->
+        <menuitem id="patient_today_visit_menu"
+              name="Today's Visits" 
+              parent="patient_root"
+              action="patient_today_visit_action"
+              sequence="20"/> 
+        <!-- groups='Flow-Test.group_doctor' -->
+        <menuitem id="patient_detail" 
+              name="Appointment"
+              parent="patient_root"
+              action="action_medical_appointment"
+              sequence="10"/>
+
+    </data>
+</odoo>
+    
